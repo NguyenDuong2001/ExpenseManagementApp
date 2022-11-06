@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -26,6 +27,22 @@ public class MainActivity extends AppCompatActivity {
         Button viewAll = findViewById(R.id.buttonViewAll);
 
         add.setOnClickListener(e -> {
+            if(name.getText().toString().matches("")){
+                Toast.makeText(this, "Field name is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(tourists.getText().toString().matches("")){
+                Toast.makeText(this, "Field number of tourists from is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(destination.getText().toString().matches("")){
+                Toast.makeText(this, "Field destination to is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(date.getText().toString().matches("")){
+                Toast.makeText(this, "Field date is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             DatabaseHelper db = new DatabaseHelper(this);
             TripModelClass trip = new TripModelClass(
                     name.getText().toString(),
@@ -37,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                     destination.getText().toString()
             );
             db.insertTrip(trip);
+
+            Toast.makeText(this, "Add successfully!", Toast.LENGTH_SHORT).show();
 
             name.setText("");
             description.setText("");

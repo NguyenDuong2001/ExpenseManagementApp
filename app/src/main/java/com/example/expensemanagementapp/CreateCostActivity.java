@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,9 +53,20 @@ public class CreateCostActivity extends AppCompatActivity {
         Button createCost = findViewById(R.id.buttonCreateCost);
 
         createCost.setOnClickListener(e -> {
+            if(description.getText().toString().matches("")){
+                Toast.makeText(this, "Field description is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(amount.getText().toString().matches("")){
+                Toast.makeText(this, "Field amount is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             DatabaseHelper db = new DatabaseHelper(this);
             db.insertCost(new CostModelClass(spinnerType.getSelectedItem().toString(),
                     Integer.parseInt(amount.getText().toString()), description.getText().toString(), time.getText().toString(), trip_id));
+            Toast.makeText(this, "Create successfully!", Toast.LENGTH_SHORT).show();
+
             Intent intentAllCost = new Intent(CreateCostActivity.this, ViewAllCostActivity.class);
             intentAllCost.putExtra("name", trip_name);
             intentAllCost.putExtra("id", trip_id);

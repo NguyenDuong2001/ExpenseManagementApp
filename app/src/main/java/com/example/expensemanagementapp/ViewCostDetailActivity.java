@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,14 @@ public class ViewCostDetailActivity extends AppCompatActivity {
 
         Button update = findViewById(R.id.buttonUpdateCost);
         update.setOnClickListener(v -> {
+            if(description.getText().toString().matches("")){
+                Toast.makeText(this, "Field description is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(amount.getText().toString().matches("")){
+                Toast.makeText(this, "Field amount is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             db.updateCost(new CostModelClass(
                     cost_id,
                     type.getSelectedItem().toString(),
@@ -78,11 +87,15 @@ public class ViewCostDetailActivity extends AppCompatActivity {
                     description.getText().toString(),
                     trip_id
             ));
+            Toast.makeText(this, "Update successfully!", Toast.LENGTH_SHORT).show();
+
         });
 
         Button delete = findViewById(R.id.buttonDeleteCost);
         delete.setOnClickListener(v -> {
             db.deleteCost(cost_id);
+            Toast.makeText(this, "Delete successfully!", Toast.LENGTH_SHORT).show();
+
             Intent intentAllCost = new Intent(ViewCostDetailActivity.this, ViewAllCostActivity.class);
             intentAllCost.putExtra("name", trip_name);
             intentAllCost.putExtra("id", trip_id);

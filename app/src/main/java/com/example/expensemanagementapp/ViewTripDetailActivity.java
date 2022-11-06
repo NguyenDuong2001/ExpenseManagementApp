@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class ViewTripDetailActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
@@ -49,6 +50,23 @@ public class ViewTripDetailActivity extends AppCompatActivity {
         });
 
         update.setOnClickListener(v -> {
+            if(name.getText().toString().matches("")){
+                Toast.makeText(this, "Field name is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(tourists.getText().toString().matches("")){
+                Toast.makeText(this, "Field number of tourists from is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(destination.getText().toString().matches("")){
+                Toast.makeText(this, "Field destination to is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(date.getText().toString().matches("")){
+                Toast.makeText(this, "Field date is required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             trip.setName(name.getText().toString());
             trip.setDescription(description.getText().toString());
             trip.setNumber_of_tourists(Integer.parseInt(tourists.getText().toString()));
@@ -58,10 +76,14 @@ public class ViewTripDetailActivity extends AppCompatActivity {
             trip.setIs_risk(risk.isChecked());
 
             db.updateTrip(trip);
+
+            Toast.makeText(this, "Update successfully!", Toast.LENGTH_SHORT).show();
+
         });
 
         delete.setOnClickListener(v -> {
             db.deleteTrip(trip_id);
+            Toast.makeText(this, "Delete successfully!", Toast.LENGTH_SHORT).show();
 
             Intent intentAllTrip = new Intent(ViewTripDetailActivity.this, ViewAllTripActivity.class);
             startActivity(intentAllTrip);
